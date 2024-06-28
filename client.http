@@ -1,0 +1,21 @@
+@baseurl=http://localhost:3333
+
+
+# @name CREATE-ACCOUNT
+POST {{baseurl}}/accounts
+content-type: application/json
+{
+    "name": "john doe",
+    "password": "123456",
+    "email":"johndoe3@example.com"
+}
+
+### 
+
+# @name AUTHENTICATION
+POST {{baseurl}}/sessions
+content-type: application/json
+{
+    "password": "123456",
+    "email":"johndoe3@example.com"
+}
