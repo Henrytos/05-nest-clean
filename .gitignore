@@ -1,4 +1,4 @@
-dist 
-node_modules
-prisma
+/dist 
+/node_modules
+/prisma
 .env
