@@ -4,10 +4,11 @@
 # @name CREATE-ACCOUNT
 POST {{baseurl}}/accounts
 content-type: application/json
+
 {
     "name": "john doe",
     "password": "123456",
-    "email":"johndoe3@example.com"
+    "email":"john@example.com"
 }
 
 ### 
@@ -15,4 +16,9 @@ content-type: application/json
 # @name AUTHENTICATION
 POST {{baseurl}}/sessions
 content-type: application/json
+
+{
+    "password": "123456",
+    "email":"john@example.com"
+}
 
