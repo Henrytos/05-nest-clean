@@ -8,7 +8,7 @@ import { PrismaQuestionMapper } from '../mappers/prisma-question-mapper';
 @Injectable()
 export class PrismaQuestionsRepository implements QuestionsRepository {
 
-  constructor(private readonly prisma:PrismaService){}
+  constructor(private  prisma:PrismaService){}
 
   async findBySlug(slug: string) {
     const question = await this.prisma.question.findFirst({
@@ -38,14 +38,14 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
   }
   async create(question: Question) {
     const data = PrismaQuestionMapper.toPrisma(question)
-    this.prisma.question.create({
+    await this.prisma.question.create({
       data
     })
   }
   async delete(question: Question) {
     const data = PrismaQuestionMapper.toPrisma(question)
 
-    this.prisma.question.delete({
+    await this.prisma.question.delete({
       where: {
         id:data.id
       }
@@ -69,7 +69,7 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
         createdAt: 'desc'
       },
       take:  20,
-      skip: (page - 1 * 20)
+      skip: (page - 1 )* 20
     }
     )
 
