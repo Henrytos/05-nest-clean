@@ -6,7 +6,7 @@ import { PrismaService } from '../prisma.service';
 import { PrismaQuestionMapper } from '../mappers/prisma-question-mapper';
 
 @Injectable()
-export class PrismaQuestionsRespository implements QuestionsRepository {
+export class PrismaQuestionsRepository implements QuestionsRepository {
 
   constructor(private readonly prisma:PrismaService){}
 
