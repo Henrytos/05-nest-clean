@@ -1,5 +1,5 @@
-import { PaginationParams } from "@/core/repositories/pagination-params";
-import { Question } from "../../enterprise/entities/question";
+import { PaginationParams } from '@/core/repositories/pagination-params';
+import { Question } from '../../enterprise/entities/question';
 
 export abstract class QuestionsRepository {
   abstract findBySlug(slug: string): Promise<Question | null>;

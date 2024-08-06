@@ -1,4 +1,4 @@
-import { PrismaService } from "@/infra/database/prisma/prisma.service";
+import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import {
   Body,
   ConflictException,
@@ -6,11 +6,11 @@ import {
   HttpCode,
   Post,
   UsePipes,
-} from "@nestjs/common";
-import { hash } from "bcryptjs";
+} from '@nestjs/common';
+import { hash } from 'bcryptjs';
 
-import { z } from "zod";
-import { ZodValidationPipe } from "../pipes/zod-validation-pipe";
+import { z } from 'zod';
+import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
 
 const createAccountBodySchema = z.object({
   name: z.string(),
@@ -20,7 +20,7 @@ const createAccountBodySchema = z.object({
 
 type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>;
 
-@Controller("/accounts")
+@Controller('/accounts')
 export class CreateAccountController {
   constructor(private prisma: PrismaService) {}
 
@@ -36,7 +36,7 @@ export class CreateAccountController {
     });
 
     if (userWithSameEmail) {
-      throw new ConflictException("user exits in application");
+      throw new ConflictException('user exits in application');
     }
 
     const passwordHash = await hash(password, 9);

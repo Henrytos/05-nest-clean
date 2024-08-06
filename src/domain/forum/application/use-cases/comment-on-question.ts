@@ -1,49 +1,51 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import { Question } from "../../enterprise/entities/question";
-import { QuestionsRepository } from "../repositories/question-repository";
-import { QuestionCommentsRepository } from "../repositories/question-comments-repository";
-import { QuestionComment } from "../../enterprise/entities/question-comment";
-import { Either, left, right } from "@/core/either";
-import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+import { Question } from '../../enterprise/entities/question';
+import { QuestionsRepository } from '../repositories/question-repository';
+import { QuestionCommentsRepository } from '../repositories/question-comments-repository';
+import { QuestionComment } from '../../enterprise/entities/question-comment';
+import { Either, left, right } from '@/core/either';
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error';
 
 interface CommentOnQuestionUseCaseRequest {
-    questionId: string;
-    authorId: string;
-    content: string;
-
+  questionId: string;
+  authorId: string;
+  content: string;
 }
 
 type CommentOnQuestionUseCaseResponse = Either<
-    ResourceNotFoundError, {
-        questionComment: QuestionComment
-    }>
-
+  ResourceNotFoundError,
+  {
+    questionComment: QuestionComment;
+  }
+>;
 
 export class CommentOnQuestionUseCase {
-    constructor(private questionsRepository: QuestionsRepository, private questionCommentsRepository: QuestionCommentsRepository) { }
+  constructor(
+    private questionsRepository: QuestionsRepository,
+    private questionCommentsRepository: QuestionCommentsRepository,
+  ) {}
 
-    async execute({
-        authorId,
-        questionId,
-        content
-    }: CommentOnQuestionUseCaseRequest): Promise<CommentOnQuestionUseCaseResponse> {
+  async execute({
+    authorId,
+    questionId,
+    content,
+  }: CommentOnQuestionUseCaseRequest): Promise<CommentOnQuestionUseCaseResponse> {
+    const question = await this.questionsRepository.findById(questionId);
 
-        const question = await this.questionsRepository.findById(questionId)
-
-        if (!question) {
-            return left(new ResourceNotFoundError())
-        }
-
-        const questionComment = QuestionComment.create({
-            authorId: new UniqueEntityID(authorId),
-            questionId: new UniqueEntityID(questionId),
-            content
-        })
-
-        await this.questionCommentsRepository.create(questionComment)
-
-        return right({
-            questionComment
-        })
+    if (!question) {
+      return left(new ResourceNotFoundError());
     }
+
+    const questionComment = QuestionComment.create({
+      authorId: new UniqueEntityID(authorId),
+      questionId: new UniqueEntityID(questionId),
+      content,
+    });
+
+    await this.questionCommentsRepository.create(questionComment);
+
+    return right({
+      questionComment,
+    });
+  }
 }
