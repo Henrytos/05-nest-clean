@@ -1,4 +1,4 @@
 
 export abstract class HashGenerator { 
-  abstract generato(plain:Record<string,string>):Promise<string>
+  abstract hash(plain:string):Promise<string>
 }
