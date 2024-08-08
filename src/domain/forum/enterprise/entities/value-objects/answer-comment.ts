@@ -7,7 +7,7 @@ export interface AnswerCommentProps {
   answerId: UniqueEntityID;
   content: string;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | null;
 }
 
 export class AnswerComment extends Entity<AnswerCommentProps> {
