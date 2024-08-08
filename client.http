@@ -19,7 +19,7 @@ Content-Type: application/json
 
 {
   "email": "diego@rocketseat.com.br",
-  "password": "12356"
+  "password": "123456"
 }
 
 ###
