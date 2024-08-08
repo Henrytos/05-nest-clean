@@ -11,7 +11,7 @@ interface RegisterStudentUseCaseRequest {
   password: string;
 }
 type RegisterStudentUseCaseResponse = Either<
-  Error,
+  StudentAlreadyExistsError,
   {
     student: Student;
   }
