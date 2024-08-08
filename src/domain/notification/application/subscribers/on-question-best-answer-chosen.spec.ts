@@ -1,4 +1,3 @@
-import { OnAnswerCreated } from '@/domain/notification/application/subscribers/on-answer-created';
 import { makeAnswer } from 'test/factories/make-answer';
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository';
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository';
