@@ -1,5 +1,5 @@
-import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import {
+  BadRequestException,
   Body,
   ConflictException,
   Controller,
@@ -7,11 +7,11 @@ import {
   Post,
   UsePipes,
 } from '@nestjs/common';
-import { hash } from 'bcryptjs';
 
 import { z } from 'zod';
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
 import { RegisterStudentUseCase } from '@/domain/forum/application/use-cases/register-student';
+import { StudentAlreadyExistsError } from '@/domain/forum/application/use-cases/erros/student-already-exists-error';
 
 const createAccountBodySchema = z.object({
   name: z.string(),
@@ -37,7 +37,12 @@ export class CreateAccountController {
     });
 
     if (result.isLeft()) {
-      throw new Error();
+      switch (result.value.constructor) {
+        case StudentAlreadyExistsError:
+          throw new ConflictException(result.value.message);
+        default:
+          throw new BadRequestException(result.value.message);
+      }
     }
   }
 }
