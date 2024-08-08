@@ -47,8 +47,10 @@ model Question {
 }
 
 model Answer {
-  id      String @id @default(uuid())
-  content String
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   authorId   String @map("author_id")
   questionId String @map("question_id")
