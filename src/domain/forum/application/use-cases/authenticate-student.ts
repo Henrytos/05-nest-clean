@@ -8,7 +8,7 @@ interface AuthenticateStudentUseCaseRequest{
   email: string,
   password:string
 }
-type AuthenticateStudentUseCaseResponse = Either<Error, {
+type AuthenticateStudentUseCaseResponse = Either<WrongCredentialsError, {
   accessToken: string
 }>
 
