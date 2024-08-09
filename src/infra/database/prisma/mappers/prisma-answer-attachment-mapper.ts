@@ -4,7 +4,7 @@ import { AnswerAttachment } from '@/domain/forum/enterprise/entities/answer-atta
 import { Attachment as PrismaAttchment } from '@prisma/client';
 
 export class PrismaAnswerAttachmentMapper {
-  toDomain(raw: PrismaAttchment): AnswerAttachment {
+  static toDomain(raw: PrismaAttchment): AnswerAttachment {
     if (!raw.answerId) {
       throw new Error('AansweId is required');
     }

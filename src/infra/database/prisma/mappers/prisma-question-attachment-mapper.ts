@@ -4,7 +4,7 @@ import { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-
 import { Attachment as PrismaAttchment } from '@prisma/client';
 
 export class PrismaQuestionAttachmentMapper {
-  toDomain(raw: PrismaAttchment): QuestionAttachment {
+  static toDomain(raw: PrismaAttchment): QuestionAttachment {
     if (!raw.questionId) {
       throw new Error('AquestionId is required');
     }
