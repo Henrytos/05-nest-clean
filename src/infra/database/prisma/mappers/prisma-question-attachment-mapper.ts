@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-attachment';
 
-import { Attachment as PrismaAttchment } from '@prisma/client';
+import { Prisma, Attachment as PrismaAttchment } from '@prisma/client';
 
 export class PrismaQuestionAttachmentMapper {
   static toDomain(raw: PrismaAttchment): QuestionAttachment {
@@ -16,4 +16,14 @@ export class PrismaQuestionAttachmentMapper {
       new UniqueEntityID(raw.id),
     );
   }
+
+  /*
+  static toPrisma(questionAttachment:QuestionAttachment):Prisma.AttachmentUncheckedCreateInput {
+    return {
+      questionId: questionAttachment.questionId,
+      answerId
+
+    }
+   }
+  */
 }
