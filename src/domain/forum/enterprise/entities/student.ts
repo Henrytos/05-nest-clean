@@ -3,21 +3,19 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
 export interface StudentProps {
   name: string;
-  password: string,
-  email:string
+  password: string;
+  email: string;
 }
 export class Student extends Entity<StudentProps> {
-
-  
-  get email() { 
+  get email() {
     return this.props.email;
   }
-   
-  get name() { 
+
+  get name() {
     return this.props.name;
   }
-    
-  get password() { 
+
+  get password() {
     return this.props.password;
   }
 
