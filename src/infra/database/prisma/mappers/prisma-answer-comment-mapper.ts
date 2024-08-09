@@ -3,7 +3,7 @@ import { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment
 import { Prisma, Comment as PrismaComment } from '@prisma/client';
 
 export class PrismaAnswerCommentMapper {
-  toDomain(raw: PrismaComment): AnswerComment {
+  static toDomain(raw: PrismaComment): AnswerComment {
     if (!raw.answerId) {
       throw new Error('AansweId is required');
     }
@@ -19,7 +19,9 @@ export class PrismaAnswerCommentMapper {
       new UniqueEntityID(raw.id),
     );
   }
-  toPrisma(answercomment: AnswerComment): Prisma.CommentUncheckedCreateInput {
+  static toPrisma(
+    answercomment: AnswerComment,
+  ): Prisma.CommentUncheckedCreateInput {
     return {
       id: answercomment.id.toString(),
       answerId: answercomment.answerId.toString(),
