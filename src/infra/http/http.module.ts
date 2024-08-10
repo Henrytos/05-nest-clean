@@ -34,6 +34,8 @@ import { DeleteQuestionCommentController } from './controllers/delete-question-c
 import { DeleteQuestionCommentUseCase } from '@/domain/forum/application/use-cases/delete-question-comment';
 import { DeleteAnswerCommentController } from './controllers/delete-answer-comment.controller';
 import { DeleteAnswerCommentUseCase } from '@/domain/forum/application/use-cases/delete-answer-comment';
+import { FetchQuestionCommentsController } from './controllers/fetch-question-comments.controller';
+import { FetchQuestionCommentsUseCase } from '@/domain/forum/application/use-cases/fetch-question-comments';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -54,6 +56,7 @@ import { DeleteAnswerCommentUseCase } from '@/domain/forum/application/use-cases
     CommentOnQuestionController,
     DeleteQuestionCommentController,
     DeleteAnswerCommentController,
+    FetchQuestionCommentsController,
   ],
   providers: [
     CreateQuestionUseCase,
@@ -72,6 +75,7 @@ import { DeleteAnswerCommentUseCase } from '@/domain/forum/application/use-cases
     CommentOnQuestionUseCase,
     DeleteQuestionCommentUseCase,
     DeleteAnswerCommentUseCase,
+    FetchQuestionCommentsUseCase,
   ],
 })
 export class HttpModule {}
