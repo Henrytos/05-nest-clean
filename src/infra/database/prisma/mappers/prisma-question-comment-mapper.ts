@@ -24,7 +24,7 @@ export class PrismaQuestionCommentMapper {
   ): Prisma.CommentUncheckedCreateInput {
     return {
       id: questioncomment.id.toString(),
-      answerId: questioncomment.questionId.toString(),
+      questionId: questioncomment.questionId.toString(),
       authorId: questioncomment.authorId.toString(),
       content: questioncomment.content,
       createdAt: questioncomment.createdAt,
