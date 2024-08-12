@@ -10,6 +10,22 @@ import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import { faker } from '@faker-js/faker';
 import { Injectable } from '@nestjs/common';
 
+
+@Injectable()
+export class QuestionFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaQuestion(data: Partial<Question> = {}): Promise<Question> {
+    const question = makeQuestion(data);
+
+    await this.prisma.question.create({
+      data: PrismaQuestionMapper.toPrisma(question),
+    });
+
+    return question;
+  }
+}
+
 export function makeQuestion(
   override: Partial<QuestionProps> = {},
   id?: UniqueEntityID,
@@ -26,19 +42,4 @@ export function makeQuestion(
   );
 
   return question;
-}
-
-@Injectable()
-export class QuestionFactory {
-  constructor(private prisma: PrismaService) {}
-
-  async makePrismaQuestion(data: Partial<Question> = {}): Promise<Question> {
-    const question = makeQuestion(data);
-
-    await this.prisma.question.create({
-      data: PrismaQuestionMapper.toPrisma(question),
-    });
-
-    return question;
-  }
 }

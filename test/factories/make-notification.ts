@@ -7,6 +7,18 @@ import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import { faker } from '@faker-js/faker';
 import { Injectable } from '@nestjs/common';
 
+
+@Injectable()
+export class NotificationFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makeprismaNotification(data: Partial<NotificationProps> = {}) {
+    const notification = makeNotification(data);
+    //TODO: create enitity notification in schema prisma
+    return notification;
+  }
+}
+
 export function makeNotification(
   override: Partial<NotificationProps> = {},
   id?: UniqueEntityID,
@@ -24,13 +36,3 @@ export function makeNotification(
   return notification;
 }
 
-@Injectable()
-export class NotificationFactory {
-  constructor(private prisma: PrismaService) {}
-
-  async makeprismaNotification(data: Partial<NotificationProps> = {}) {
-    const notification = makeNotification(data);
-    //TODO: create enitity notification in schema prisma
-    return notification;
-  }
-}

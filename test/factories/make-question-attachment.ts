@@ -6,6 +6,23 @@ import {
 import { PrismaQuestionAttachmentMapper } from '@/infra/database/prisma/mappers/prisma-question-attachment-mapper';
 import { PrismaService } from '@/infra/database/prisma/prisma.service';
 
+@Injectable()
+export class QuestionAttachmentFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaQuestionAttachements(data: Partial<QuestionAttachmentProps>) {
+    const questionAttachment = makeQuestionAttachment(data);
+
+    /*
+        await this.prisma.attachment.create({
+      data: PrismaQuestionAttachmentMapper,
+    });
+
+    return questionAttachment;
+    */
+  }
+}
+
 export function makeQuestionAttachment(
   override: Partial<QuestionAttachmentProps> = {},
   id?: UniqueEntityID,
@@ -22,18 +39,3 @@ export function makeQuestionAttachment(
   return questionAttachment;
 }
 
-export class QuestionAttachmentFactory {
-  constructor(private prisma: PrismaService) {}
-
-  async makePrismaQuestionAttachements(data: Partial<QuestionAttachmentProps>) {
-    const questionAttachment = makeQuestionAttachment(data);
-
-    /*
-        await this.prisma.attachment.create({
-      data: PrismaQuestionAttachmentMapper,
-    });
-
-    return questionAttachment;
-    */
-  }
-}

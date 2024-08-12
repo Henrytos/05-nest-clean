@@ -8,6 +8,22 @@ import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import { faker } from '@faker-js/faker';
 import { Injectable } from '@nestjs/common';
 
+
+@Injectable()
+export class AnswerCommentFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaAnswerComment(data: Partial<AnswerCommentProps> = {}) {
+    const answerComment = makeAnswerComment(data);
+
+    await this.prisma.comment.create({
+      data: PrismaAnswerCommentMapper.toPrisma(answerComment),
+    });
+
+    return answerComment;
+  }
+}
+
 export function makeAnswerComment(
   override: Partial<AnswerCommentProps> = {},
   id?: UniqueEntityID,
@@ -25,17 +41,3 @@ export function makeAnswerComment(
   return answerComment;
 }
 
-@Injectable()
-export class AnswerCommentFactory {
-  constructor(private prisma: PrismaService) {}
-
-  async makePrismaAnswerComment(data: Partial<AnswerCommentProps> = {}) {
-    const answerComment = makeAnswerComment(data);
-
-    await this.prisma.comment.create({
-      data: PrismaAnswerCommentMapper.toPrisma(answerComment),
-    });
-
-    return answerComment;
-  }
-}
