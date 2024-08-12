@@ -5,7 +5,6 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import { PrismaAnswerMapper } from '@/infra/database/prisma/mappers/prisma-answer-mapper';
 
-
 @Injectable()
 export class AnswerFactory {
   constructor(private prisma: PrismaService) {}
@@ -37,4 +36,3 @@ export function makeAnswer(
 
   return answer;
 }
-

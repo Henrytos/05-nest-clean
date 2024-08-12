@@ -16,14 +16,11 @@ describe('answer question use case (UNIT)', () => {
     inMemoryAnswersRepository = new InMemoryAnswersRepository(
       inMemoryAnswerAttachmentsRepository,
     );
-    sut = new AnswerQuestionUseCase(
-      inMemoryAnswersRepository,
-      inMemoryAnswerAttachmentsRepository,
-    );
+    sut = new AnswerQuestionUseCase(inMemoryAnswersRepository);
   });
   it('create answer', async () => {
     const result = await sut.execute({
-      instructorId: '1',
+      authorId: '1',
       questionId: '1',
       content: 'example content',
       attachmentsIds: ['1', '2'],

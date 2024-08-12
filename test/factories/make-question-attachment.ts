@@ -3,8 +3,8 @@ import {
   QuestionAttachment,
   QuestionAttachmentProps,
 } from '@/domain/forum/enterprise/entities/question-attachment';
-import { PrismaQuestionAttachmentMapper } from '@/infra/database/prisma/mappers/prisma-question-attachment-mapper';
 import { PrismaService } from '@/infra/database/prisma/prisma.service';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class QuestionAttachmentFactory {
@@ -38,4 +38,3 @@ export function makeQuestionAttachment(
 
   return questionAttachment;
 }
-

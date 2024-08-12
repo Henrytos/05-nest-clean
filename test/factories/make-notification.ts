@@ -7,7 +7,6 @@ import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import { faker } from '@faker-js/faker';
 import { Injectable } from '@nestjs/common';
 
-
 @Injectable()
 export class NotificationFactory {
   constructor(private prisma: PrismaService) {}
@@ -35,4 +34,3 @@ export function makeNotification(
 
   return notification;
 }
-

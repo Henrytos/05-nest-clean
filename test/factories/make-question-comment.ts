@@ -8,7 +8,6 @@ import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import { faker } from '@faker-js/faker';
 import { Injectable } from '@nestjs/common';
 
-
 @Injectable()
 export class QuestionCommentFactory {
   constructor(private prisma: PrismaService) {}
@@ -40,4 +39,3 @@ export function makeQuestionComment(
 
   return questionComment;
 }
-

@@ -1,7 +1,7 @@
-import { HashCompare } from '@/domain/forum/application/cryptography/hash-compare';
+import { HashComparer } from '@/domain/forum/application/cryptography/hash-compare';
 import { HashGenerator } from '@/domain/forum/application/cryptography/hash-generator';
 
-export class FakeHasher implements HashCompare, HashGenerator {
+export class FakeHasher implements HashComparer, HashGenerator {
   async hash(plain: string): Promise<string> {
     return plain.concat('-hashed');
   }
