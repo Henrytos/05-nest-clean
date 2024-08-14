@@ -4,7 +4,6 @@ import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import { INestApplication } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
-import { hash } from 'bcryptjs';
 import request from 'supertest';
 import { StudentFactory } from 'test/factories/make-student';
 
@@ -40,5 +39,10 @@ describe('upload attachment (E2E)', () => {
       .attach('file', './test/e2e/sample-file.jpg');
 
     expect(response.statusCode).toBe(201);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        attachment_id: expect.any(String),
+      }),
+    );
   });
 });

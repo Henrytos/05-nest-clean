@@ -39,6 +39,7 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from '@/infra/database/database.module';
 import { UploadAttachmentControllert } from './controllers/upload-attachment.controller';
 import { StorageModule } from '../storage/storage.module';
+import { UploadAndCreateAttachmentUseCase } from '@/domain/forum/application/use-cases/upload-and-create-attachment';
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -82,6 +83,7 @@ import { StorageModule } from '../storage/storage.module';
     DeleteAnswerCommentUseCase,
     FetchQuestionCommentsUseCase,
     FetchAnswerCommentsUseCase,
+    UploadAndCreateAttachmentUseCase,
   ],
 })
 export class HttpModule {}
