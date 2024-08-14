@@ -38,9 +38,10 @@ import { GetQuestionBySlugController } from './controllers/get-quetion-by-slug.c
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '@/infra/database/database.module';
 import { UploadAttachmentControllert } from './controllers/upload-attachment.controller';
+import { StorageModule } from '../storage/storage.module';
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule],
   controllers: [
     CreateAccountController,
     AuthenticateController,
