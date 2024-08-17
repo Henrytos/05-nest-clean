@@ -13,13 +13,16 @@ export class QuestionAttachmentFactory {
   async makePrismaQuestionAttachements(data: Partial<QuestionAttachmentProps>) {
     const questionAttachment = makeQuestionAttachment(data);
 
-    /*
-        await this.prisma.attachment.create({
-      data: PrismaQuestionAttachmentMapper,
+    await this.prisma.attachment.update({
+      where: {
+        id: questionAttachment.attachmentId.toString(),
+      },
+      data: {
+        questionId: questionAttachment.questionId.toString(),
+      },
     });
 
     return questionAttachment;
-    */
   }
 }
 
