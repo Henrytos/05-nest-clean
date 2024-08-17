@@ -83,4 +83,46 @@ describe('edit question use case (UNIT)', () => {
     expect(result.isLeft()).toEqual(true);
     expect(result.isRight()).toEqual(false);
   });
+
+  it('should sync new and removed attachment when editing a question', async () => {
+    const question = makeQuestion(
+      {
+        authorId: new UniqueEntityID('author-01'),
+      },
+      new UniqueEntityID('question-01'),
+    );
+
+    inMemoryQuestionAttachmentsRepository.items.push(
+      makeQuestionAttachment({
+        questionId: question.id,
+        attachmentId: new UniqueEntityID('1'),
+      }),
+      makeQuestionAttachment({
+        questionId: question.id,
+        attachmentId: new UniqueEntityID('2'),
+      }),
+    );
+
+    inMemoryQuestionsRepository.create(question);
+
+    await sut.execute({
+      questionId: question.id.toValue(),
+      authorId: 'author-01',
+      content: 'content',
+      title: 'question',
+      attachmentsIds: ['1', '3'],
+    });
+
+    expect(inMemoryQuestionAttachmentsRepository.items).toHaveLength(2);
+    expect(inMemoryQuestionAttachmentsRepository.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          attachmentId: new UniqueEntityID('1'),
+        }),
+        expect.objectContaining({
+          attachmentId: new UniqueEntityID('3'),
+        }),
+      ]),
+    );
+  });
 });
