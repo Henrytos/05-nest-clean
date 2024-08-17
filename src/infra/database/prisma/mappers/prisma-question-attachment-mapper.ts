@@ -17,13 +17,22 @@ export class PrismaQuestionAttachmentMapper {
     );
   }
 
-  /*
-  static toPrisma(questionAttachment:QuestionAttachment):Prisma.AttachmentUncheckedCreateInput {
-    return {
-      questionId: questionAttachment.questionId,
-      answerId
+  static toPrismaUpdateMany(
+    attachments: QuestionAttachment[],
+  ): Prisma.AttachmentUpdateManyArgs {
+    const attachmentsIds = attachments.map((attachment) => {
+      return attachment.id.toString();
+    });
 
-    }
-   }
-  */
+    return {
+      where: {
+        id: {
+          in: attachmentsIds,
+        },
+      },
+      data: {
+        questionId: attachments[0].questionId.toString(),
+      },
+    };
+  }
 }
