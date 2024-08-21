@@ -1,7 +1,5 @@
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repostory';
-import { AttachmentsRepository } from '../repositories/attachments-repository';
 import { UploadAndCreateAttachmentUseCase } from './upload-and-create-attachment';
-import { Uploader } from '../storage/uploader';
 import { FakerUploader } from 'test/storage/fake-uploader';
 import { InvalidTypeAttachmentError } from './erros/invalid-type-attachment-error';
 
@@ -27,9 +25,9 @@ describe('upload and create attachemnt use case (UNIT)', () => {
     });
 
     expect(result.isRight()).toBe(true);
-    expect(inMemeoryAttachmentsRepository.attachments).toHaveLength(1);
+    expect(inMemeoryAttachmentsRepository.items).toHaveLength(1);
     expect(result.value).toEqual({
-      attachment: inMemeoryAttachmentsRepository.attachments[0],
+      attachment: inMemeoryAttachmentsRepository.items[0],
     });
     expect(fakeUploader.uploads).toHaveLength(1);
     expect(fakeUploader.uploads[0]).toEqual(

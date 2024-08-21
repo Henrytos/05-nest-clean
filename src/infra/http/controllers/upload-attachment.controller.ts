@@ -27,7 +27,7 @@ export class UploadAttachmentControllert {
       new ParseFilePipe({
         validators: [
           new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 2 }), // 2mb
-          new FileTypeValidator({ fileType: '.(jpeg|jpg|pneg|pdf)' }),
+          new FileTypeValidator({ fileType: '.(jpeg|jpg|png|pdf)' }),
         ],
       }),
     )

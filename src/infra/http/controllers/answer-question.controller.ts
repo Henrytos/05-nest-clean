@@ -14,6 +14,7 @@ import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answ
 
 const answerQuestionBodySchema = z.object({
   content: z.string(),
+  attachments: z.array(z.string().uuid()),
 });
 
 const bodyValidationPipe = new ZodValidationPipe(answerQuestionBodySchema);
@@ -30,11 +31,10 @@ export class AnswerQuestionController {
     @CurrentUser() user: UserPayload,
     @Param('questionId') questionId: string,
   ) {
-    const { content } = body;
-
+    const { content, attachments } = body;
     const result = await this.answerQuestionUseCase.execute({
       authorId: user.sub,
-      attachmentsIds: [],
+      attachmentsIds: attachments,
       content,
       questionId,
     });

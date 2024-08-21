@@ -4,7 +4,11 @@ import { makeQuestion } from 'test/factories/make-question';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository';
 import { makeQuestionAttachment } from 'test/factories/make-question-attachment';
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repostory';
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository';
 
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository;
+let inMemoryStudentsRepository: InMemoryStudentsRepository;
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository;
 let sut: EditQuestionUseCase;
@@ -13,8 +17,12 @@ describe('edit question use case (UNIT)', () => {
   beforeEach(() => {
     inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository();
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository();
+    inMemoryStudentsRepository = new InMemoryStudentsRepository();
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
       inMemoryQuestionAttachmentsRepository,
+      inMemoryAttachmentsRepository,
+      inMemoryStudentsRepository,
     );
     sut = new EditQuestionUseCase(
       inMemoryQuestionsRepository,

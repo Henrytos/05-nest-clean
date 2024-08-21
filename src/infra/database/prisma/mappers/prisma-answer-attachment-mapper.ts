@@ -17,20 +17,31 @@ export class PrismaAnswerAttachmentMapper {
     );
   }
 
-  static toPrismaUpdateMany(
-    attachements: AnswerAttachment[],
-  ): Prisma.AttachmentUpdateManyArgs {
-    const attachementIds = attachements.map((attachment) =>
-      attachment.id.toString(),
-    );
+  static toPrisma(attachment: AnswerAttachment): Prisma.AttachmentUpdateArgs {
     return {
       data: {
-        answerId: attachements[0].answerId.toString(),
+        answerId: attachment.answerId.toString(),
       },
       where: {
+        id: attachment.id.toString(),
+      },
+    };
+  }
+
+  static toPrismaUpdateMany(
+    attachments: AnswerAttachment[],
+  ): Prisma.AttachmentUpdateManyArgs {
+    const attachmentsIds = attachments.map((attachment) =>
+      attachment.attachmentId.toString(),
+    );
+    return {
+      where: {
         id: {
-          in: attachementIds,
+          in: attachmentsIds,
         },
+      },
+      data: {
+        answerId: attachments[0].answerId.toString(),
       },
     };
   }

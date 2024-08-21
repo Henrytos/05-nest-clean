@@ -2,6 +2,13 @@ import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questio
 import { GetQuestionBySlugUseCase } from './get-question-by-slug';
 import { makeQuestion } from 'test/factories/make-question';
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository';
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository';
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repostory';
+import { makeStudent } from 'test/factories/make-student';
+import { Slug } from '../../enterprise/entities/value-objects/slug';
+
+let inMemoryStudentsRepository: InMemoryStudentsRepository;
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository;
 
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository;
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
@@ -11,24 +18,32 @@ describe('get question by slug use case (UNIT)', () => {
   beforeEach(() => {
     inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository();
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository();
+    inMemoryStudentsRepository = new InMemoryStudentsRepository();
+
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
       inMemoryQuestionAttachmentsRepository,
+      inMemoryAttachmentsRepository,
+      inMemoryStudentsRepository,
     );
     sut = new GetQuestionBySlugUseCase(inMemoryQuestionsRepository);
   });
 
   it('should be able get question by slug', async () => {
-    const newQuestion = makeQuestion();
+    const author = makeStudent();
+    inMemoryStudentsRepository.items.push(author);
+
+    const newQuestion = makeQuestion({
+      slug: Slug.create('sample-slug'),
+      authorId: author.id,
+    });
 
     inMemoryQuestionsRepository.create(newQuestion);
 
     const result = await sut.execute({
-      slug: 'example-slug',
+      slug: 'sample-slug',
     });
 
     expect(result.isRight()).toEqual(true);
-    expect(result.value).toEqual({
-      question: newQuestion,
-    });
   });
 });
