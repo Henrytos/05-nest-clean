@@ -13,7 +13,11 @@ import {
   SendNotificationUseCaseRequest,
   SendNotificationUseCaseResponse,
 } from '../use-cases/send-notification.js';
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository.js';
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repostory.js';
 
+let inMemoryStudentsRepository: InMemoryStudentsRepository;
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository;
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository;
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository;
@@ -35,8 +39,12 @@ describe('On Answer Created', () => {
     );
     inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository();
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository();
+    inMemoryStudentsRepository = new InMemoryStudentsRepository();
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
       inMemoryQuestionAttachmentsRepository,
+      inMemoryAttachmentsRepository,
+      inMemoryStudentsRepository,
     );
     inMemoryNotificationsRepository = new InMemoryNotificationsRepository();
     sendNotificationUseCase = new SendNotificationUseCase(
