@@ -97,14 +97,15 @@ model Comment {
 }
 
 model Notification {
-  id          String    @id @default(uuid())
+  id          String  @id @default(uuid())
+  recipientId String?
   title       String
   content     String
-  createdAt   DateTime  @default(now()) @map("created_at")
-  readAt      DateTime? @map("read_at")
-  recipientId String?
 
-  User User? @relation(fields: [recipientId], references: [id])
+  readAt    DateTime? @map("read_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  recipient User? @relation(fields: [recipientId], references: [id])
 
   @@map("notifications")
 }

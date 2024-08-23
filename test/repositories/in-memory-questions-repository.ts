@@ -1,13 +1,11 @@
 import { DomainEvents } from '@/core/events/domain-events';
 import { PaginationParams } from '@/core/repositories/pagination-params';
-import { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments-repository';
 import { QuestionsRepository } from '@/domain/forum/application/repositories/question-repository';
 import { Question } from '@/domain/forum/enterprise/entities/question';
 import { InMemoryQuestionAttachmentsRepository } from './in-memory-question-attachments-repository';
 import { InMemoryStudentsRepository } from './in-memory-students-repository';
 import { InMemoryAttachmentsRepository } from './in-memory-attachments-repostory';
 import { QuestionDetails } from '@/domain/forum/enterprise/entities/value-objects/question-details';
-import { aE } from 'vitest/dist/reporters-yx5ZTtEV';
 import { Attachment } from '@/domain/forum/enterprise/entities/attachment';
 
 export class InMemoryQuestionsRepository implements QuestionsRepository {
