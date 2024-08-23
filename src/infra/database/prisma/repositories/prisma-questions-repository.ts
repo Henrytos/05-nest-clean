@@ -7,6 +7,7 @@ import { PrismaQuestionMapper } from '../mappers/prisma-question-mapper';
 import { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments-repository';
 import { QuestionDetails } from '@/domain/forum/enterprise/entities/value-objects/question-details';
 import { PrismaQuestionDetailsMapper } from '../mappers/value-objects/question-details-mapper';
+import { DomainEvents } from '@/core/events/domain-events';
 
 @Injectable()
 export class PrismaQuestionsRepository implements QuestionsRepository {
@@ -97,6 +98,8 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
         question.attachments.getRemovedItems(),
       ),
     ]);
+
+    DomainEvents.dispatchEventsForAggregate(question.id);
   }
 
   async findManyRecent({ page }: PaginationParams) {
