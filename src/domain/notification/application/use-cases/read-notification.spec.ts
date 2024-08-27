@@ -2,6 +2,7 @@ import { InMemoryNotificationsRepository } from 'test/repositories/in-memory-not
 import { ReadNotificationUseCase } from './read-notification';
 import { makeNotification } from 'test/factories/make-notification';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error';
 
 let inMemoryNotificationsRepository: InMemoryNotificationsRepository;
 
@@ -45,5 +46,15 @@ describe('create notification use case (UNIT)', () => {
 
     expect(result.isLeft()).toEqual(true);
     expect(inMemoryNotificationsRepository.items).toHaveLength(1);
+  });
+
+  it('it shouldnt be possible to read a notification that doesnt exist', async () => {
+    const result = await sut.execute({
+      recipientId: 'invalid-recipient-id',
+      notificationId: 'invalid-notification-id',
+    });
+
+    expect(result.isLeft()).toEqual(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });
