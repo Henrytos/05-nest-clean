@@ -51,4 +51,20 @@ describe('authenticade use case (UNIT)', () => {
     expect(result.isLeft()).toBe(true);
     expect(result.value).toBeInstanceOf(WrongCredentialsError);
   });
+
+  it('It should not be possible for a student to authenticate if the password is invalid', async () => {
+    const student = makeStudent({
+      password: '13579',
+    });
+
+    inMemoryStudentsRepository.items.push(student);
+
+    const result = await sut.execute({
+      email: student.email,
+      password: '02468',
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(WrongCredentialsError);
+  });
 });

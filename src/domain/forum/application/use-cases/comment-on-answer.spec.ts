@@ -5,6 +5,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository';
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository';
 import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository';
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error';
 
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository;
 let inMemoryAnswerCommentRepository: InMemoryAnswerCommentsRepository;
@@ -47,5 +48,16 @@ describe('create answer use case (UNIT)', () => {
         answerId: answer.id,
       }),
     );
+  });
+
+  it('should not be able to comment on a answer that does not exist', async () => {
+    const result = await sut.execute({
+      authorId: 'invalid-author-id',
+      content: 'content example',
+      answerId: 'invalid-answer-id',
+    });
+
+    expect(result.isLeft()).toEqual(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });

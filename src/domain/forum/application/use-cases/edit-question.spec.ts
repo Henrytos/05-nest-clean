@@ -6,6 +6,7 @@ import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memo
 import { makeQuestionAttachment } from 'test/factories/make-question-attachment';
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repostory';
 import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository';
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error';
 
 let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository;
 let inMemoryStudentsRepository: InMemoryStudentsRepository;
@@ -132,5 +133,17 @@ describe('edit question use case (UNIT)', () => {
         }),
       ]),
     );
+  });
+
+  it('should not be able to edit question if it does not exist', async () => {
+    const result = await sut.execute({
+      questionId: 'invalid-question-id',
+      attachmentsIds: [],
+      authorId: 'invalid-author-id',
+      content: 'example content',
+      title: 'example title',
+    });
+    expect(result.isLeft()).toEqual(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });

@@ -7,6 +7,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository';
 import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository';
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repostory';
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error';
 
 let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository;
 let inMemoryStudentsRepository: InMemoryStudentsRepository;
@@ -53,5 +54,16 @@ describe('create question use case (UNIT)', () => {
         content: 'example content',
       }),
     );
+  });
+
+  it('should not be able to comment on a question that does not exist', async () => {
+    const result = await sut.execute({
+      authorId: 'invalid-author-id',
+      content: 'content example',
+      questionId: 'invalid-question-id',
+    });
+
+    expect(result.isLeft()).toEqual(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });

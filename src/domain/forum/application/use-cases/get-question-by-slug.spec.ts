@@ -6,6 +6,7 @@ import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repostory';
 import { makeStudent } from 'test/factories/make-student';
 import { Slug } from '../../enterprise/entities/value-objects/slug';
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error';
 
 let inMemoryStudentsRepository: InMemoryStudentsRepository;
 let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository;
@@ -45,5 +46,17 @@ describe('get question by slug use case (UNIT)', () => {
     });
 
     expect(result.isRight()).toEqual(true);
+  });
+
+  it('shouldnt be able to get questions by slug if it doesnt exist', async () => {
+    const author = makeStudent();
+    inMemoryStudentsRepository.items.push(author);
+
+    const result = await sut.execute({
+      slug: 'sample-slug',
+    });
+
+    expect(result.isLeft()).toEqual(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });

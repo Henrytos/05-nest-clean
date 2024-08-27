@@ -9,6 +9,8 @@ import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memo
 import { ChooseQuestionBestAnswerUseCase } from './choose-question-best-answer';
 import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository';
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repostory';
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error';
+import { makeStudent } from 'test/factories/make-student';
 
 let inMemoryStudentsRepository: InMemoryStudentsRepository;
 let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository;
@@ -81,5 +83,39 @@ describe('choose question best answer use case (UNIT)', () => {
 
     expect(result.isLeft()).toEqual(true);
     expect(result.value).toBeInstanceOf(NotAllowedError);
+  });
+
+  it('shouldnt be possible to demand a better answer if it doesnt exist', async () => {
+    const result = await sut.execute({
+      answerId: 'invalid-answer-id',
+      authorId: 'invalid-author-id',
+    });
+
+    expect(result.isLeft()).toEqual(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
+  });
+
+  it('shouldnt be possible to demand a better answer if it doesnt exist', async () => {
+    const result = await sut.execute({
+      answerId: 'invalid-answer-id',
+      authorId: 'invalid-author-id',
+    });
+
+    expect(result.isLeft()).toEqual(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
+  });
+
+  it('shouldnt be possible to demand a better question if it doesnt exist', async () => {
+    const answer = makeAnswer({});
+
+    inMemoryAnswersRepository.items.push(answer);
+
+    const result = await sut.execute({
+      answerId: answer.id.toValue(),
+      authorId: 'invalid-author-id',
+    });
+
+    expect(result.isLeft()).toEqual(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });

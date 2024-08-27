@@ -4,6 +4,7 @@ import { makeQuestionComment } from 'test/factories/make-question-comment';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { NotAllowedError } from '@/core/errors/not-allowed-error';
 import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students-repository';
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error';
 
 let inMemoryStudentsRepository: InMemoryStudentsRepository;
 let inMemoryQuestionCommentsRepository: InMemoryQuestionCommentsRepository;
@@ -49,5 +50,15 @@ describe('delete question comment use case (UNIT)', () => {
 
     expect(result.isLeft()).toEqual(true);
     expect(result.value).toBeInstanceOf(NotAllowedError);
+  });
+
+  it('should not be able to edit question comment if it does not exist', async () => {
+    const result = await sut.execute({
+      authorId: 'invalid-author-id',
+      questionCommentId: 'invalid-question-comment-id',
+    });
+
+    expect(result.isLeft()).toEqual(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });

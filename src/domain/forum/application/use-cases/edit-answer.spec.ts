@@ -5,6 +5,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository';
 import { makeAnswerAttachment } from 'test/factories/make-answer-attachment';
 import { NotAllowedError } from '@/core/errors/not-allowed-error';
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found-error';
 
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository;
 let inMemoryAnswersRepository: InMemoryAnswersRepository;
@@ -124,5 +125,17 @@ describe('Edit Answer', () => {
         }),
       ]),
     );
+  });
+
+  it('should not be able to edit answer if it does not exist', async () => {
+    const result = await sut.execute({
+      answerId: 'invalid-answer-id',
+      attachmentsIds: [],
+      authorId: 'invalid-author-id',
+      content: 'example content',
+    });
+
+    expect(result.isLeft()).toEqual(true);
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError);
   });
 });
