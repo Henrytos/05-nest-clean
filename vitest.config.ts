@@ -7,15 +7,17 @@ export default defineConfig({
     globals: true,
     root: './',
     coverage: {
-      provider: 'istanbul',
-      reportsDirectory: './src/domain/forum/aplication/use-cases',
-      reporter: [
-        // Specify reporter using name of the NPM package
-        ['@vitest/custom-coverage-reporter', { someOption: true }],
-
-        // Specify reporter using local path
-        '/absolute/path/to/custom-reporter.cjs',
+      provider: 'v8',
+      reportsDirectory: './test/unit/coverage',
+      exclude: [
+        'node_modules',
+        'dist',
+        'src/infra',
+        'create-priavate-and-public-keys-jwt.js',
+        'eslintrc.js',
+        'test',
       ],
+      extension: ['.ts'],
     },
   },
   plugins: [
