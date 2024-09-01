@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   HttpCode,
+  HttpStatus,
   Param,
   Post,
 } from '@nestjs/common';
@@ -11,6 +12,15 @@ import { UserPayload } from '@/infra/auth/jwt.strategy';
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe';
 import { z } from 'zod';
 import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question';
+import {
+  ApiBody,
+  ApiHeader,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { AnswerQuestionBodyDto } from '../dto/answer-question-body-dto';
+import { UserRole } from '@prisma/client';
 
 const answerQuestionBodySchema = z.object({
   content: z.string(),
@@ -19,15 +29,25 @@ const answerQuestionBodySchema = z.object({
 
 const bodyValidationPipe = new ZodValidationPipe(answerQuestionBodySchema);
 
-type AnswerQuestionBodySchema = z.infer<typeof answerQuestionBodySchema>;
+@ApiHeader({
+  enum: UserRole,
+  name: 'Authorization Bearer',
+  description: 'role',
+  example: 'Bearer',
+})
+@ApiTags('Questions')
 @Controller('/questions/:questionId/answer')
 export class AnswerQuestionController {
   constructor(private answerQuestionUseCase: AnswerQuestionUseCase) {}
 
+  @ApiBody({ type: AnswerQuestionBodyDto })
+  @ApiParam({ name: 'questionId', type: 'string' })
+  @ApiResponse({ status: HttpStatus.CREATED })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
   @Post()
-  @HttpCode(201)
+  @HttpCode(HttpStatus.CREATED)
   async handler(
-    @Body(bodyValidationPipe) body: AnswerQuestionBodySchema,
+    @Body(bodyValidationPipe) body: AnswerQuestionBodyDto,
     @CurrentUser() user: UserPayload,
     @Param('questionId') questionId: string,
   ) {
@@ -38,9 +58,8 @@ export class AnswerQuestionController {
       content,
       questionId,
     });
-
     if (result.isLeft()) {
-      throw new BadRequestException();
+      throw new BadRequestException(HttpStatus.BAD_REQUEST);
     }
   }
 }
