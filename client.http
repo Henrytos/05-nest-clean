@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:8080
+@baseUrl = http://localhost:3000
 @authToken = {{authenticate.response.body.access_token}}
 
 # @name create_account
@@ -31,7 +31,8 @@ Authorization: Bearer {{authToken}}
 
 {
   "title": "Nova pergunta 3",
-  "content": "Teste"
+  "content": "Teste",
+  "attachments":[]
 }
 
 ###

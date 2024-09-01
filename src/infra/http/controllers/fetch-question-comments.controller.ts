@@ -2,6 +2,8 @@ import {
   BadRequestException,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Query,
 } from '@nestjs/common';
@@ -9,8 +11,15 @@ import {
 import { z } from 'zod';
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
 import { FetchQuestionCommentsUseCase } from '@/domain/forum/application/use-cases/fetch-question-comments';
-import { CommentPresenter } from '../presenters/comment-presenter';
 import { CommentWithAuthorPresenter } from '../presenters/comment-with-author-presenter';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiHeader,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+} from '@nestjs/swagger';
 
 const pageQueryParamSchema = z
   .string()
@@ -30,6 +39,22 @@ export class FetchQuestionCommentsController {
   ) {}
 
   @Get()
+  @ApiTags('questions')
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'Authorization Bearer',
+    example: 'Bearer',
+  })
+  @ApiParam({ name: 'questionId', type: 'string' })
+  @ApiQuery({ name: 'page', type: 'number' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Bad request',
+  })
+  @HttpCode(HttpStatus.OK)
   async handler(
     @Query('page', queryValidationPipe) page: PageQueryParamSchema,
     @Param('questionId') questionId: string,

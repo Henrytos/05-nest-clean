@@ -22,12 +22,12 @@ const authenticateBodySchema = z.object({
 });
 
 @Public()
-@ApiTags('authorization')
 @Controller('/sessions')
 export class AuthenticateController {
   constructor(private authenticateStudent: AuthenticateStudentUseCase) {}
 
   @Post()
+  @ApiTags('authorization')
   @ApiBody({ type: AuthenticateBodyDto })
   @ApiResponse({
     status: HttpStatus.OK,

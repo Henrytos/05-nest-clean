@@ -1,9 +1,23 @@
-import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Query,
+} from '@nestjs/common';
 
 import { z } from 'zod';
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
 import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions';
 import { QuestionPresenter } from '../presenters/question-presenter';
+import {
+  ApiBearerAuth,
+  ApiHeader,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 const pageQueryParamSchema = z
   .string()
@@ -23,6 +37,26 @@ export class FetchRecentQuestionsController {
   ) {}
 
   @Get()
+  @ApiTags('questions')
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'Authorization Bearer',
+    example: 'Bearer',
+    required: true,
+  })
+  @ApiQuery({
+    name: 'page',
+    type: 'number',
+    required: false,
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'bad request',
+  })
+  @HttpCode(HttpStatus.OK)
   async handler(
     @Query('page', queryValidationPipe) page: PageQueryParamSchema,
   ) {

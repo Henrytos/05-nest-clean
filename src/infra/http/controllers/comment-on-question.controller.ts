@@ -5,11 +5,20 @@ import {
   BadRequestException,
   Body,
   Controller,
+  HttpStatus,
   Param,
   Post,
 } from '@nestjs/common';
 import { z } from 'zod';
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
+import {
+  ApiTags,
+  ApiHeader,
+  ApiBody,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
+import { CommentOnAnswerBodyDto } from '../dto/comment-on-answer-body-dto';
 
 const commentOnQuestionBodySchema = z.object({
   content: z.string(),
@@ -26,6 +35,20 @@ export class CommentOnQuestionController {
   constructor(private commentOnQuestionUseCase: CommentOnQuestionUseCase) {}
 
   @Post()
+  @ApiTags('questions')
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'Authorization Bearer',
+    required: true,
+  })
+  @ApiBody({ type: CommentOnAnswerBodyDto })
+  @ApiResponse({
+    status: HttpStatus.OK,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Bad request',
+  })
   async handler(
     @CurrentUser() user: UserPayload,
     @Body(commentOnQuestionValidatePipe) body: CommentOnQuestionBody,

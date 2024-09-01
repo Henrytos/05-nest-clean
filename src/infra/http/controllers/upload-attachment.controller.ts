@@ -13,21 +13,38 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { UploadAttachmentBodyDto } from '../dto/upload-attachment-body-dto';
+import { UploadAttachmentResponseDto } from '../dto/upload-attachment-response.dto';
 
 @Controller('/attachments')
-@ApiTags('uploads')
 export class UploadAttachmentControllert {
   constructor(
     private uploadAndCreateAttachment: UploadAndCreateAttachmentUseCase,
   ) {}
 
   @Post()
-  @ApiConsumes('multipart/form-data')
+  @ApiTags('uploads')
+  @ApiBearerAuth()
   @ApiBody({
     type: UploadAttachmentBodyDto,
   })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    type: UploadAttachmentResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'The attachment type type is invalid.',
+    type: BadRequestException,
+  })
+  @ApiConsumes('multipart/form-data')
   @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(

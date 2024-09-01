@@ -1,4 +1,3 @@
-import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug';
 import { AppModule } from '@/infra/app.module';
 import { DatabaseModule } from '@/infra/database/database.module';
 import { INestApplication } from '@nestjs/common';

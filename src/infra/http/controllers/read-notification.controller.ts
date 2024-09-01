@@ -6,19 +6,47 @@ import { UserPayload } from '@/infra/auth/jwt.strategy';
 import {
   Controller,
   HttpCode,
+  HttpStatus,
   InternalServerErrorException,
   NotFoundException,
   Param,
   Patch,
   UnauthorizedException,
 } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiHeader,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @Controller('/notifications/:notificationId/read')
 export class ReadNotificationController {
   constructor(private readNotification: ReadNotificationUseCase) {}
 
   @Patch()
-  @HttpCode(204)
+  @ApiTags('notifications')
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'Authorization Bearer',
+    example: 'Bearer',
+  })
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Resource Not Found Error',
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Not Allowed',
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: 'Internal server error',
+  })
+  @HttpCode(HttpStatus.NO_CONTENT)
   async handler(
     @Param('notificationId') notificationId: string,
     @CurrentUser() user: UserPayload,

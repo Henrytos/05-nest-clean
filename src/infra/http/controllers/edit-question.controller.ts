@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -12,6 +13,16 @@ import { UserPayload } from '@/infra/auth/jwt.strategy';
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe';
 import { z } from 'zod';
 import { EditQuestionUseCase } from '@/domain/forum/application/use-cases/edit-question';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiHeader,
+  ApiParam,
+  ApiBody,
+  ApiResponse,
+} from '@nestjs/swagger';
+import { EditAnswerBodyDto } from '../dto/edit-answer-body-dto';
+import { EditQuestionBodyDto } from '../dto/edit-question-body-dto';
 
 const editQuestionBodySchema = z.object({
   title: z.string(),
@@ -21,15 +32,29 @@ const editQuestionBodySchema = z.object({
 
 const bodyValidationPipe = new ZodValidationPipe(editQuestionBodySchema);
 
-type EditQuestionBodySchema = z.infer<typeof editQuestionBodySchema>;
 @Controller('/questions/:id')
 export class EditQuestionController {
   constructor(private editQuestionUseCase: EditQuestionUseCase) {}
 
   @Put()
-  @HttpCode(204)
+  @ApiTags('questions')
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'Authorization Bearer',
+    example: 'Bearer',
+  })
+  @ApiParam({ name: 'id', type: 'string' })
+  @ApiBody({ type: EditQuestionBodyDto })
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Bad request',
+  })
+  @HttpCode(HttpStatus.NO_CONTENT)
   async handler(
-    @Body(bodyValidationPipe) body: EditQuestionBodySchema,
+    @Body(bodyValidationPipe) body: EditQuestionBodyDto,
     @CurrentUser() user: UserPayload,
     @Param('id') questionId: string,
   ) {

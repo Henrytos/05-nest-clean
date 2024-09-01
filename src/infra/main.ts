@@ -13,10 +13,9 @@ async function bootstrap() {
   const port = env.get('PORT');
 
   const config = new DocumentBuilder()
-    .setTitle('nest clean')
+    .setTitle('nest clean Forum')
     .setDescription('nest clean api description endpoints')
     .setVersion('1.0')
-    .addTag('forum')
     .build();
 
   const options: SwaggerDocumentOptions = {};
