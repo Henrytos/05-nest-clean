@@ -5,6 +5,7 @@ import {
   Controller,
   FileTypeValidator,
   HttpCode,
+  HttpStatus,
   MaxFileSizeValidator,
   ParseFilePipe,
   Post,
@@ -12,15 +13,22 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { UploadAttachmentBodyDto } from '../dto/upload-attachment-body-dto';
 
 @Controller('/attachments')
+@ApiTags('uploads')
 export class UploadAttachmentControllert {
   constructor(
     private uploadAndCreateAttachment: UploadAndCreateAttachmentUseCase,
   ) {}
 
   @Post()
-  @HttpCode(201)
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: UploadAttachmentBodyDto,
+  })
+  @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @UploadedFile(
