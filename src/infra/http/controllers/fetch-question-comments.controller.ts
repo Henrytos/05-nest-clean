@@ -39,7 +39,7 @@ export class FetchQuestionCommentsController {
   ) {}
 
   @Get()
-  @ApiTags('questions')
+  @ApiTags('question comments')
   @ApiBearerAuth()
   @ApiHeader({
     name: 'Authorization Bearer',

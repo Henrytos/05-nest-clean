@@ -33,7 +33,7 @@ export class CommentOnAnswerController {
   constructor(private commentOnAnswerUseCase: CommentOnAnswerUseCase) {}
 
   @Post()
-  @ApiTags('answers')
+  @ApiTags('answer comments')
   @ApiBearerAuth()
   @ApiHeader({
     name: 'Authorization Bearer',

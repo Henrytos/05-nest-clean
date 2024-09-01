@@ -29,7 +29,7 @@ export class CreateAccountController {
   constructor(private registerStudent: RegisterStudentUseCase) {}
 
   @Post()
-  @ApiTags('accounts')
+  @ApiTags('sing up')
   @ApiBody({ type: CreateAccountBodyDto })
   @ApiResponse({
     status: HttpStatus.OK,

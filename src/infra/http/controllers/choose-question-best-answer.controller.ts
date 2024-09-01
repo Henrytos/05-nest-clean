@@ -24,7 +24,7 @@ export class ChooseQuestionBestAnswerController {
   ) {}
 
   @Patch()
-  @ApiTags('questions')
+  @ApiTags('answers')
   @ApiBearerAuth()
   @ApiHeader({
     name: 'Auhtoriztion Bearer',

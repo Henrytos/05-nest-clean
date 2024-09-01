@@ -27,7 +27,7 @@ export class AuthenticateController {
   constructor(private authenticateStudent: AuthenticateStudentUseCase) {}
 
   @Post()
-  @ApiTags('authorization')
+  @ApiTags('sing in')
   @ApiBody({ type: AuthenticateBodyDto })
   @ApiResponse({
     status: HttpStatus.OK,

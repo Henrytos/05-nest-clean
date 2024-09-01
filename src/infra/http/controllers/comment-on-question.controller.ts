@@ -35,7 +35,7 @@ export class CommentOnQuestionController {
   constructor(private commentOnQuestionUseCase: CommentOnQuestionUseCase) {}
 
   @Post()
-  @ApiTags('questions')
+  @ApiTags('question comments')
   @ApiBearerAuth()
   @ApiHeader({
     name: 'Authorization Bearer',

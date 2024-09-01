@@ -22,7 +22,7 @@ export class DeleteAnswerCommentController {
   constructor(private deleteAnswerComment: DeleteAnswerCommentUseCase) {}
 
   @Delete()
-  @ApiTags('answers')
+  @ApiTags('answer comments')
   @ApiBearerAuth()
   @ApiHeader({
     name: 'Authorization Bearer',

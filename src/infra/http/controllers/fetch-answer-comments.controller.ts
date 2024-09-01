@@ -36,7 +36,7 @@ export class FetchAnswerCommentsController {
   constructor(private fetchAnswerCommentsUseCase: FetchAnswerCommentsUseCase) {}
 
   @Get()
-  @ApiTags('answers')
+  @ApiTags('answer comments')
   @ApiBearerAuth()
   @ApiHeader({
     name: 'Authorization Bearer',

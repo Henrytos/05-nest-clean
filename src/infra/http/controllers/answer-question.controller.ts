@@ -34,7 +34,7 @@ export class AnswerQuestionController {
   constructor(private answerQuestionUseCase: AnswerQuestionUseCase) {}
 
   @Post()
-  @ApiTags('questions')
+  @ApiTags('answers')
   @ApiBearerAuth()
   @ApiHeader({
     name: 'Authorization Bearer',
