@@ -7,7 +7,7 @@ const swagger_1 = require("@nestjs/swagger");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const env = app.get(env_service_1.EnvService);
-    const port = env.get('PORT');
+    const port = 8080;
     const config = new swagger_1.DocumentBuilder()
         .setTitle('nest clean Forum')
         .setDescription('nest clean api description endpoints')
