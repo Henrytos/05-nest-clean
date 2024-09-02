@@ -1,0 +1,1 @@
+{"version":3,"file":"attachment-presenter.js","sourceRoot":"","sources":["../../../../../src/infra/http/presenters/attachment-presenter.ts"],"names":[],"mappings":";;;AAEA,MAAa,mBAAmB;IAC9B,MAAM,CAAC,MAAM,CAAC,UAAsB;QAClC,OAAO;YACL,EAAE,EAAE,UAAU,CAAC,EAAE,CAAC,QAAQ,EAAE;YAC5B,KAAK,EAAE,UAAU,CAAC,KAAK;YACvB,GAAG,EAAE,UAAU,CAAC,GAAG;SACpB,CAAC;IACJ,CAAC;CACF;AARD,kDAQC"}

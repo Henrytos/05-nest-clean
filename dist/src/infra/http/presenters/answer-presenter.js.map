@@ -1,0 +1,1 @@
+{"version":3,"file":"answer-presenter.js","sourceRoot":"","sources":["../../../../../src/infra/http/presenters/answer-presenter.ts"],"names":[],"mappings":";;;AAEA,MAAa,eAAe;IAC1B,MAAM,CAAC,MAAM,CAAC,MAAc;QAC1B,OAAO;YACL,OAAO,EAAE,MAAM,CAAC,OAAO;YACvB,WAAW,EAAE,EAAE;YACf,SAAS,EAAE,MAAM,CAAC,SAAS;YAC3B,SAAS,EAAE,MAAM,CAAC,SAAS;SAC5B,CAAC;IACJ,CAAC;CACF;AATD,0CASC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"instructor.js","sourceRoot":"","sources":["../../../../../../src/domain/forum/enterprise/entities/instructor.ts"],"names":[],"mappings":";;;AAAA,6DAAgD;AAOhD,MAAa,UAAW,SAAQ,eAAuB;IACrD,MAAM,CAAC,MAAM,CAAC,KAAsB,EAAE,EAAmB;QACvD,MAAM,UAAU,GAAG,IAAI,UAAU,CAAC,KAAK,EAAE,EAAE,CAAC,CAAC;QAC7C,OAAO,UAAU,CAAC;IACpB,CAAC;CACF;AALD,gCAKC"}

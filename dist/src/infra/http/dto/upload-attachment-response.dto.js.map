@@ -1,0 +1,1 @@
+{"version":3,"file":"upload-attachment-response.dto.js","sourceRoot":"","sources":["../../../../../src/infra/http/dto/upload-attachment-response.dto.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,6CAA8C;AAE9C,MAAa,2BAA2B;CAOvC;AAPD,kEAOC;AADQ;IALN,IAAA,qBAAW,EAAC;QACX,KAAK,EAAE,cAAc;QACrB,IAAI,EAAE,MAAM;QACZ,OAAO,EAAE,mBAAmB;KAC7B,CAAC;;kEAC2B"}

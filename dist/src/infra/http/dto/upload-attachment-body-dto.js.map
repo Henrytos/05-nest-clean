@@ -1,0 +1,1 @@
+{"version":3,"file":"upload-attachment-body-dto.js","sourceRoot":"","sources":["../../../../../src/infra/http/dto/upload-attachment-body-dto.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,6CAA8C;AAE9C,MAAa,uBAAuB;CAGnC;AAHD,0DAGC;AADC;IADC,IAAA,qBAAW,EAAC,EAAE,IAAI,EAAE,QAAQ,EAAE,MAAM,EAAE,QAAQ,EAAE,CAAC;8BAC5C,MAAM;qDAAC"}

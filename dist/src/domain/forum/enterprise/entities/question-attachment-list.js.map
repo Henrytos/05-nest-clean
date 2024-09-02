@@ -1,0 +1,1 @@
+{"version":3,"file":"question-attachment-list.js","sourceRoot":"","sources":["../../../../../../src/domain/forum/enterprise/entities/question-attachment-list.ts"],"names":[],"mappings":";;;AAAA,yEAA2D;AAG3D,MAAa,sBAAuB,SAAQ,0BAA+B;IACzE,YAAY,CAAC,CAAqB,EAAE,CAAqB;QACvD,OAAO,CAAC,CAAC,YAAY,CAAC,MAAM,CAAC,CAAC,CAAC,YAAY,CAAC,CAAC;IAC/C,CAAC;CACF;AAJD,wDAIC"}

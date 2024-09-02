@@ -1,0 +1,1 @@
+{"version":3,"file":"student-already-exists-error.js","sourceRoot":"","sources":["../../../../../../../src/domain/forum/application/use-cases/erros/student-already-exists-error.ts"],"names":[],"mappings":";;;AAEA,MAAa,yBAA0B,SAAQ,KAAK;IAClD,YAAY,UAAkB;QAC5B,KAAK,CAAC,qBAAqB,UAAU,iBAAiB,CAAC,CAAC;IAC1D,CAAC;CACF;AAJD,8DAIC"}
