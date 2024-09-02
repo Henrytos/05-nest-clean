@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000
+@baseUrl = https://zero5-nest-clean.onrender.com
 @authToken = {{authenticate.response.body.access_token}}
 
 # @name create_account
