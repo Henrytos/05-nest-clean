@@ -8,7 +8,7 @@ import { DatabaseModule } from '../database/database.module';
   imports: [DatabaseModule],
   providers: [
     SendNotificationUseCase,
-    //ReadNotificationUseCase,
+    ReadNotificationUseCase,
     OnQuestionBestAnswerChosen,
     OnAnswerCreated,
   ],
