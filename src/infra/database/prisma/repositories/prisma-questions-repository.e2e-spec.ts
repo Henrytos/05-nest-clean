@@ -4,7 +4,6 @@ import { CacheRepository } from '@/infra/cache/cache-repository';
 import { CacheModule } from '@/infra/cache/cache.module';
 import { DatabaseModule } from '@/infra/database/database.module';
 import { INestApplication } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
 import { AttachmentFactory } from 'test/factories/make-attachment';
 import { QuestionFactory } from 'test/factories/make-question';
@@ -81,12 +80,15 @@ describe('Get question by slug (E2E)', () => {
       authorId: user.id,
     });
 
-    cacheRepository.set(`question:${question.slug.value}:details`, JSON.stringify({ title: 'Cached Title' }));
+    await questionsRepository.findDetailsBySlug(question.slug.value);
 
     const cached = await cacheRepository.get(`question:${question.slug.value}:details`);
     const questionDetails = await questionsRepository.findDetailsBySlug(question.slug.value);
 
-
-    expect(cached).toBe(JSON.stringify(questionDetails));
+    expect(JSON.parse(cached)).toMatchObject(
+      expect.objectContaining({
+        title: questionDetails.title,
+      })
+    )
   });
 });

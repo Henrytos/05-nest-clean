@@ -36,7 +36,9 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
     const cacheHit = await this.cache.get(`question:${slug}:details`);
 
     if(cacheHit){
-      return JSON.parse(cacheHit)
+      const cachedData = JSON.parse(cacheHit);
+
+      return PrismaQuestionDetailsMapper.toDomain(cachedData);
     }
     
     
@@ -54,9 +56,10 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
       return null;
     }
 
+    await this.cache.set(`question:${slug}:details`, JSON.stringify(question))
+
     const questionDetails =  PrismaQuestionDetailsMapper.toDomain(question)
 
-    await this.cache.set(`question:${slug}:details`, JSON.stringify(questionDetails))
 
     return questionDetails;
   }
