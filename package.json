@@ -34,6 +34,7 @@
     "@types/node-jose": "^1.1.13",
     "bcryptjs": "^2.4.3",
     "dayjs": "^1.11.11",
+    "ioredis": "^5.6.1",
     "node-jose": "^2.2.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.0",
