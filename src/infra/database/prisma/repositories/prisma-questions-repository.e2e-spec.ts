@@ -44,10 +44,7 @@ describe('Get question by slug (E2E)', () => {
   });
 
   it('should be possible to persist in the Redis cache', async () => {
-    const user = await studentFactory.makePrismaStudent({
-      name: 'John Doe',
-    });
-
+    const user = await studentFactory.makePrismaStudent();
 
     const question = await questionFactory.makePrismaQuestion({
       authorId: user.id,
@@ -58,6 +55,38 @@ describe('Get question by slug (E2E)', () => {
     const cached = await cacheRepository.get(`question:${question.slug.value}:details`);
 
     expect(cached).toBeDefined();
-    console.log('Cached question details:', cached);
+  });
+
+
+  it('should be possible to invalidate a Redis cache', async () => {
+    const user = await studentFactory.makePrismaStudent();
+
+    const question = await questionFactory.makePrismaQuestion({
+      authorId: user.id,
+    });
+
+    await questionsRepository.findDetailsBySlug(question.slug.value);
+
+    await questionsRepository.save(question);
+
+    const cached = await cacheRepository.get(`question:${question.slug.value}:details`);
+    expect(cached).toBeNull();
+  });
+
+
+  it('should be possible to validate a Redis cache', async () => {
+    const user = await studentFactory.makePrismaStudent();
+
+    const question = await questionFactory.makePrismaQuestion({
+      authorId: user.id,
+    });
+
+    cacheRepository.set(`question:${question.slug.value}:details`, JSON.stringify({ title: 'Cached Title' }));
+
+    const cached = await cacheRepository.get(`question:${question.slug.value}:details`);
+    const questionDetails = await questionsRepository.findDetailsBySlug(question.slug.value);
+
+
+    expect(cached).toBe(JSON.stringify(questionDetails));
   });
 });
