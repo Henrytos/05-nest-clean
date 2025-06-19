@@ -10,7 +10,7 @@ import { Injectable } from '@nestjs/common';
 export class QuestionAttachmentFactory {
   constructor(private prisma: PrismaService) {}
 
-  async makePrismaQuestionAttachements(data: Partial<QuestionAttachmentProps>) {
+  async makePrismaQuestionAttachments(data: Partial<QuestionAttachmentProps>) {
     const questionAttachment = makeQuestionAttachment(data);
 
     await this.prisma.attachment.update({

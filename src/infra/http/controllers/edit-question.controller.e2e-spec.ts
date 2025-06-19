@@ -60,12 +60,12 @@ describe('edit question (E2E)', () => {
       content: 'question content',
     });
 
-    await questionAttachment.makePrismaQuestionAttachements({
+    await questionAttachment.makePrismaQuestionAttachments({
       questionId: question.id,
       attachmentId: attachment1.id,
     });
 
-    await questionAttachment.makePrismaQuestionAttachements({
+    await questionAttachment.makePrismaQuestionAttachments({
       questionId: question.id,
       attachmentId: attachment2.id,
     });

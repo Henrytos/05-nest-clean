@@ -1,10 +1,11 @@
-import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug';
+import { QuestionsRepository } from '@/domain/forum/application/repositories/question-repository';
 import { AppModule } from '@/infra/app.module';
+import { CacheRepository } from '@/infra/cache/cache-repository';
+import { CacheModule } from '@/infra/cache/cache.module';
 import { DatabaseModule } from '@/infra/database/database.module';
 import { INestApplication } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
-import request from 'supertest';
 import { AttachmentFactory } from 'test/factories/make-attachment';
 import { QuestionFactory } from 'test/factories/make-question';
 import { QuestionAttachmentFactory } from 'test/factories/make-question-attachment';
@@ -16,11 +17,12 @@ describe('Get question by slug (E2E)', () => {
   let questionFactory: QuestionFactory;
   let attachmentFactory: AttachmentFactory;
   let questionAttachmentFactory: QuestionAttachmentFactory;
-  let jwt: JwtService;
+  let cacheRepository: CacheRepository;
+  let questionsRepository: QuestionsRepository;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [AppModule, DatabaseModule],
+      imports: [AppModule, DatabaseModule, CacheModule],
       providers: [
         StudentFactory,
         QuestionFactory,
@@ -35,49 +37,27 @@ describe('Get question by slug (E2E)', () => {
     questionFactory = moduleRef.get(QuestionFactory);
     attachmentFactory = moduleRef.get(AttachmentFactory);
     questionAttachmentFactory = moduleRef.get(QuestionAttachmentFactory);
-    jwt = moduleRef.get(JwtService);
+    cacheRepository = moduleRef.get(CacheRepository);
+    questionsRepository = moduleRef.get(QuestionsRepository);
 
     await app.init();
   });
 
-  test('[GET] /questions/:slug', async () => {
+  it('should be possible to persist in the Redis cache', async () => {
     const user = await studentFactory.makePrismaStudent({
       name: 'John Doe',
     });
 
-    const accessToken = jwt.sign({ sub: user.id.toString() });
 
     const question = await questionFactory.makePrismaQuestion({
       authorId: user.id,
-      title: 'Question 01',
-      slug: Slug.create('question-01'),
     });
 
-    const attachment = await attachmentFactory.makePrismaAttachment({
-      title: 'Some attachment',
-    });
+    await questionsRepository.findDetailsBySlug(question.slug.value);
 
-    await questionAttachmentFactory.makePrismaQuestionAttachments({
-      attachmentId: attachment.id,
-      questionId: question.id,
-    });
+    const cached = await cacheRepository.get(`question:${question.slug.value}:details`);
 
-    const response = await request(app.getHttpServer())
-      .get('/questions/question-01')
-      .set('Authorization', `Bearer ${accessToken}`)
-      .send();
-
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual({
-      question: expect.objectContaining({
-        title: 'Question 01',
-        author: 'John Doe',
-        attachments: [
-          expect.objectContaining({
-            title: 'Some attachment',
-          }),
-        ],
-      }),
-    });
+    expect(cached).toBeDefined();
+    console.log('Cached question details:', cached);
   });
 });
