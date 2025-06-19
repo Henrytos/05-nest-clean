@@ -1,15 +1,20 @@
-version: '3.8'
 
 services:
   postgres:
-    container_name: nest-clean-pg
+    container_name: nest-clean-postgres
     image: postgres
     ports:
       - 5432:5432
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: docker
-      POSTGRES_DB: nest-clean
-      PGDATA: /data/postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     volumes:
       - ./data/pg:/data/postgres
+  redis:
+    container_name: nest-clean-redis
+    image: redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data/redis:/data

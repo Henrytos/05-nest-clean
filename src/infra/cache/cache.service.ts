@@ -1,8 +1,9 @@
-import { OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Redis } from 'ioredis';
 import { EnvService } from '../env/env.service';
 
-export class CacheService extends Redis implements OnModuleInit  {
+@Injectable()
+export class CacheService extends Redis {
     
     constructor(envService: EnvService) {
         super({
@@ -11,8 +12,5 @@ export class CacheService extends Redis implements OnModuleInit  {
             db: envService.get('REDIS_DB'),
         });
     }
-    
-    onModuleInit() {
-        throw new Error('Method not implemented.');
-    }
+
 }
